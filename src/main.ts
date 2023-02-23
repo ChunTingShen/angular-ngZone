@@ -29,7 +29,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     <button (click)='clear()'>Clear Logs</button>
     <button (click)='c()'>This is an Empty Event</button>
 
-    <button (click)='login()'>Login?</button>
 
 
   `,
@@ -59,28 +58,6 @@ export class App {
     });
 
     // (not shown here) onError: will notifies that an error has been delivered.
-
-    // check inactive logout demo:
-
-    // this.zone.runOutsideAngular(() => {
-    // const token = setInterval(() => {
-    //   let interval = 0;
-    //   if (this.lastLoginTime != '') {
-    //     let lastTime = JSON.parse(localStorage.getItem('lastTime'));
-    //     console.log(lastTime);
-
-    //     let now = new Date().getTime();
-    //     interval = now - lastTime;
-    //     console.log(interval);
-    //   }
-
-    //   if (interval >= 3000) {
-    //     alert('inactive for 3 seconds');
-    //     // do the log out or something
-    //     clearInterval(token);
-    //   }
-    // }, 1000);
-    // });
   }
 
   withinZone() {
@@ -99,6 +76,9 @@ export class App {
 
   outsideZone() {
     this.count = 100;
+    // Count is update to 100 since it is "inside" Angular zone.
+    // But the following code will not update the UI, since it is "runOutsideAngular":
+
     this.zone.runOutsideAngular(() => {
       let i = 1;
       const token = setInterval(() => {
@@ -116,35 +96,23 @@ export class App {
     console.clear();
     console.log('cleared!');
 
-    // this.name = 'hihihi';
-    // this.zone.runOutsideAngular(() => {
-    //   setTimeout(() => {
-    //     this.name = 'Hello';
-    //     this.count = 9999;
-    //     console.log('I said: Hello!');
-    //   }, 2000);
-    // });
+    this.name = 'hihihi';
+    // Name will be updated as "hihihi" as soon as we click it.
+
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.name = 'Hello';
+        this.count = 9999;
+
+        // Name and count will NOT be updated because no Change Detection is triggered.
+        // If we click something else (eg Empty event), then name will be updated.
+
+        console.log('I said: Hello!');
+      }, 2000);
+    });
   }
 
   c() {}
-
-  login() {
-    // if (this.lastLoginTime === "" ){
-
-    let time = new Date().getTime().toString();
-    localStorage.setItem('lastTime', time);
-    this.lastLoginTime = time;
-    console.log(this.lastLoginTime);
-    // }
-    // else {
-
-    // let lastTime = localStorage.getItem('lastTime');
-    // let now = new Date().getTime();
-    // let interval = (now - lastTime)
-    // console.log(interval);
-
-    // }
-  }
 }
 
 bootstrapApplication(App);
