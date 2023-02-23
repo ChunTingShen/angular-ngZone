@@ -96,20 +96,20 @@ export class App {
     console.clear();
     console.log('cleared!');
 
-    this.name = 'hihihi';
-    // Name will be updated as "hihihi" as soon as we click it.
+    // this.name = 'hihihi';
+    // // Name will be updated as "hihihi" as soon as we click it.
 
-    this.zone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.name = 'Hello';
-        this.count = 9999;
+    // this.zone.runOutsideAngular(() => {
+    //   setTimeout(() => {
+    //     this.name = 'Hello';
+    //     this.count = 9999;
 
-        // Name and count will NOT be updated because no Change Detection is triggered.
-        // If we click something else (eg Empty event), then name will be updated.
+    //     // Name and count will NOT be updated because no Change Detection is triggered.
+    //     // If we click something else (eg Empty event), then name will be updated.
 
-        console.log('I said: Hello!');
-      }, 2000);
-    });
+    //     console.log('I said: Hello!');
+    //   }, 2000);
+    // });
   }
 
   c() {}
